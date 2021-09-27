@@ -1,0 +1,86 @@
+body.v-tour--active {
+  pointer-events: none;
+}
+.v-tour {
+  pointer-events: auto;
+  @apply fixed bg-modalBg top-0 bottom-0 left-0 right-0;
+}
+.v-tour__target--highlighted {
+  -webkit-box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.4);
+  pointer-events: auto;
+  z-index: 9999;
+}
+.v-tour__target--relative {
+  position: relative;
+}
+.v-step {
+  border-radius: 3px;
+  pointer-events: auto;
+  z-index: 10000;
+  @apply bg-white w-[450px] text-font py-5 text-left px-5;
+}
+.v-step--sticky {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.v-step--sticky .v-step__arrow {
+  display: none;
+}
+.v-step__arrow,
+.v-step__arrow:before {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: inherit;
+  border-radius: 3px;
+}
+.v-step__arrow {
+  visibility: hidden;
+}
+.v-step__arrow--dark:before {
+  background: white;
+}
+.v-step__arrow:before {
+  visibility: visible;
+  content: '';
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  margin-left: -5px;
+  top: 0;
+}
+.v-step[data-popper-placement^='top'] > .v-step__arrow {
+  bottom: -5px;
+}
+.v-step[data-popper-placement^='bottom'] > .v-step__arrow {
+  top: -5px;
+}
+.v-step[data-popper-placement^='right'] > .v-step__arrow {
+  left: -5px;
+}
+.v-step[data-popper-placement^='left'] > .v-step__arrow {
+  right: -5px;
+}
+.v-step__header {
+  @apply text-left text-lg text-font mb-1;
+}
+.v-step__content {
+  @apply text-light text-sm;
+}
+.v-step__buttons {
+  @apply flex justify-between items-center mt-5;
+  .v-step__button {
+    @apply text-sm px-6 py-1 font-medium;
+    &.v-step__button-skip,
+    &.v-step__button-previous {
+      @apply border border-btnBorder text-primary hover:bg-primary hover:text-white hover:border-primary transition duration-300 ease-in-out;
+    }
+    &.v-step__button-next,
+    &.v-step__button-stop {
+      @apply bg-primary text-white hover:bg-[rgba(37,140,96,0.7)] transition duration-300 ease-in-out;
+    }
+  }
+}

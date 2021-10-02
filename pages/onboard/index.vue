@@ -2,7 +2,12 @@
   <div>
     <h1 class="text-2xl mb-6">Select Account Type</h1>
     <ul class="w-full space-y-8">
-      <li class="bg-white px-5 py-9 w-full">
+      <li class="bg-white px-5 py-9 w-full relative overflow-hidden">
+        <img
+          src="~/assets/images/pop.svg"
+          class="absolute -bottom-1/4 right-0 w-[158px] -rotate-12"
+          alt=""
+        />
         <div class="flex items-start justify-start space-x-3 relative">
           <input
             id="checkOne"
@@ -44,7 +49,12 @@
           </div>
         </div>
       </li>
-      <li class="bg-white px-5 py-9 w-full">
+      <li class="bg-white px-5 py-9 w-full relative overflow-hidden">
+        <img
+          src="~/assets/images/groove.svg"
+          class="absolute -bottom-1/4 -right-8 w-[158px] -rotate-12"
+          alt=""
+        />
         <div class="flex items-start justify-start space-x-3 relative">
           <input
             id="checkTwo"
@@ -86,7 +96,12 @@
           </div>
         </div>
       </li>
-      <li class="bg-white px-5 py-9 w-full">
+      <li class="bg-white px-5 py-9 w-full relative overflow-hidden">
+        <img
+          src="~/assets/images/classic.svg"
+          class="absolute -bottom-1/4 -right-12 w-[158px] -rotate-12"
+          alt=""
+        />
         <div class="flex items-start justify-start space-x-3 relative">
           <input
             id="checkThree"
@@ -110,12 +125,12 @@
           </div>
           <div class="space-y-4 w-[95%]">
             <label for="checkThree" class="cursor-pointer text-lg -mt-30"
-              >Groove Account</label
+              >Classic Account</label
             >
             <p class="text-light text-sm">
-              As a young professional starting out your career, now is the time
-              to save more, earn more and find your groove in the financial
-              market
+              You are less than 25 and looking to get a head start in the
+              journey to financial freedom. Pop over and start small to earn
+              more
             </p>
             <div class="flex items-start space-x-4">
               <p>Features:</p>
@@ -129,6 +144,33 @@
         </div>
       </li>
     </ul>
+    <div class="mt-10 flex justify-end">
+      <nuxt-link
+        to="/signup"
+        class="
+          cursor-pointer
+          rounded
+          py-[12px]
+          text-white
+          bg-primary
+          hover:bg-[rgba(37,140,96,0.7)]
+          transition
+          duration-300
+          ease-in-out
+          flex
+          items-center
+          justify-between
+          px-5
+          w-[400px]
+          space-x-10
+        "
+      >
+        <span class="w-[50%] text-right">Save & Continue</span>
+        <span class="material-icons material-icons-sharp justify-self-end">
+          east
+        </span>
+      </nuxt-link>
+    </div>
   </div>
 </template>
 

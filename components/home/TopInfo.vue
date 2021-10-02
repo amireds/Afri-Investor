@@ -1,7 +1,9 @@
 <template>
   <div class="flex justify-between items-center">
     <div>
-      <p class="text-3xl font-medium">Welcome Micheal</p>
+      <p class="text-3xl font-medium">
+        {{ isFirstTime === true ? 'Welcome' : 'Hello' }} Micheal
+      </p>
       <p class="text-[20px] text-[#999999]">
         Good to have you on board, get started with the actions below
       </p>
@@ -35,5 +37,13 @@
 <script>
 export default {
   name: 'TopInfo',
+  computed: {
+    isFirstTime() {
+      return this.$store.getters['auth/isFirstTime']
+    },
+    firstName() {
+      return this.$store.getters['dashboard/firstName']
+    },
+  },
 }
 </script>

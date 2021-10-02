@@ -29,27 +29,43 @@
       <h1 class="text-4xl text-center leading-[50px] px-10 mb-[65px]">
         Gain financial freedom by simply investing
       </h1>
-      <form>
+      <form @submit.prevent="onSignup">
         <div class="form-control">
           <label for="email">Email</label>
           <input
             type="email"
             id="email"
             placeholder="e.g michealolawale@gmail.com"
+            v-model="email"
           />
         </div>
         <div class="form-control">
           <label for="username">Username</label>
-          <input type="text" id="username" placeholder="e.g mikeola" />
+          <input
+            type="text"
+            id="username"
+            placeholder="e.g mikeola"
+            v-model="username"
+          />
         </div>
         <div class="half">
           <div class="form-control">
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" placeholder="e.g Mayowa" />
+            <input
+              type="text"
+              id="firstName"
+              placeholder="e.g Mayowa"
+              v-model="firstName"
+            />
           </div>
           <div class="form-control">
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" placeholder="Olawale" />
+            <input
+              type="text"
+              id="lastName"
+              placeholder="Olawale"
+              v-model="lastName"
+            />
           </div>
         </div>
         <div class="form-control">
@@ -58,6 +74,7 @@
             type="password"
             id="password"
             placeholder="At least 8 characters"
+            v-model="password"
           />
         </div>
         <button
@@ -117,12 +134,39 @@
 export default {
   name: 'signUp',
   layout: 'auth',
+  data: () => ({
+    email: '',
+    password: '',
+    username: '',
+    firstName: '',
+    lastName: '',
+  }),
+  methods: {
+    onSignup() {
+      this.$store
+        .dispatch('auth/userSignUp', {
+          username: this.username,
+          email: this.email,
+          firstname: this.firstName,
+          lastname: this.lastName,
+          password: this.password,
+        })
+        .then(() => {
+          this.username = ''
+          this.email = ''
+          this.firstName = ''
+          this.lastName = ''
+          this.password = ''
+          this.$router.replace('/')
+        })
+    },
+  },
 }
 </script>
 
 <style lang="scss">
 .auth-body {
-  @apply absolute left-[43%] w-[580px] mx-auto bottom-[213px];
+  @apply absolute left-[43%] w-[580px] mx-auto bottom-[113px];
   .form-control {
     @apply w-full my-4;
     label {

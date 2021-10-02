@@ -43,13 +43,14 @@
         <p class="text-sm text-light mt-1">close</p>
       </div>
     </header>
-    <main class="w-[1000px] mx-auto mt-[170px]"><Nuxt /></main>
+    <main class="w-[1000px] mx-auto mt-[80px]"><Nuxt /></main>
   </div>
 </template>
 
 <script>
 export default {
   name: 'onboard',
+  middleware: ['check-auth', 'auth'],
 }
 </script>
 

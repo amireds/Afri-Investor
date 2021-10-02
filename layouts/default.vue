@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar h-full flex font-apercu antialiased relative">
-    <Sidebar />
+    <Sidebar is-inside="true" />
     <div class="main w-[85%] px-14 bg-[#F6F6F6] relative ml-auto">
       <Nuxt />
     </div>
@@ -13,6 +13,7 @@ import Sidebar from '~/components/Sidebar'
 export default {
   name: 'Default',
   components: { Sidebar },
+  middleware: ['check-auth', 'auth'],
 }
 </script>
 

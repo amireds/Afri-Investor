@@ -28,13 +28,14 @@
     <div class="auth-body">
       <h1 class="text-4xl text-center leading-[50px] px-10">Hello!</h1>
       <h3 class="w-full text-center">Welcome back, enter your details below</h3>
-      <form>
+      <form @submit.prevent="onLogin">
         <div class="form-control">
           <label for="email">Email/Username</label>
           <input
             type="email"
             id="email"
             placeholder="e.g michealolawale@gmail.com"
+            v-model="username"
           />
         </div>
         <div class="form-control">
@@ -43,6 +44,7 @@
             type="password"
             id="password"
             placeholder="At least 8 characters"
+            v-model="password"
           />
         </div>
         <div class="form-control">
@@ -64,7 +66,7 @@
               ></div>
               <span>Remember Me</span>
             </div>
-            <nuxt-link to="/" class="hover:text-primary underline"
+            <nuxt-link to="/home" class="hover:text-primary underline"
               >I forgot my password</nuxt-link
             >
           </div>
@@ -97,12 +99,33 @@
 export default {
   name: 'login',
   layout: 'auth',
+  data() {
+    return {
+      username: '',
+      password: '',
+    }
+  },
+  methods: {
+    onLogin() {
+      this.$store
+        .dispatch('auth/userLogin', {
+          username: this.username,
+          password: this.password,
+        })
+        .then(() => {
+          this.username = ''
+          this.password = ''
+          this.$router.push('/home')
+          //console.log('You should go to home')
+        })
+    },
+  },
 }
 </script>
 
 <style scoped lang="scss">
 .auth-body {
-  @apply absolute left-[43%] w-[580px] mx-auto bottom-[213px];
+  @apply absolute left-[43%] w-[580px] mx-auto bottom-[300px];
   .form-control {
     @apply w-full my-4;
     label {

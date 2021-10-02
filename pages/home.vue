@@ -137,12 +137,13 @@
 import TopInfo from '~/components/home/TopInfo'
 import DashboardRecords from '~/components/home/DashboardRecords'
 import DashboardChart from '~/pages/DashboardChart'
-import HomeTabs from '~/pages/HomeTabs'
+import HomeTabs from '~/components/home/HomeTabs'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'home',
   layout: 'default',
+  //middleware: 'first-launch',
   components: { HomeTabs, DashboardChart, DashboardRecords, TopInfo },
   data() {
     return {
@@ -182,12 +183,23 @@ export default {
       this.$tours['myTour'].stop()
       this.tourStart = false
     },
+    startModal() {
+      //console.log('Is user a firstTimer?', this.isFirstTime)
+      if (this.isFirstTime) {
+        this.isShowModal = true
+      }
+    },
   },
   computed: {
     ...mapGetters(['getHelp']),
+    isFirstTime() {
+      return this.$store.getters['auth/isFirstTime']
+    },
   },
   mounted() {
-    this.isShowModal = false
+    this.$store.dispatch('auth/setFirstLaunch')
+    this.$store.dispatch('dashboard/getUserData')
+    this.startModal()
   },
 }
 </script>

@@ -12,6 +12,7 @@ import Sidebar from '~/components/Sidebar'
 
 export default {
   name: 'Auth',
+  middleware: ['check-auth', 'no-auth'],
   components: { Sidebar },
 }
 </script>

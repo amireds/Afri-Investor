@@ -1,7 +1,17 @@
 <template>
-  <div class="sidebar h-full flex font-apercu antialiased relative">
+  <div
+    class="
+      sidebar
+      min-h-screen
+      max-h-full
+      flex
+      font-apercu
+      antialiased
+      relative
+    "
+  >
     <Sidebar is-inside="true" />
-    <div class="main w-[85%] px-14 bg-[#F6F6F6] relative ml-auto">
+    <div class="main w-[85%] bg-[#F6F6F6] px-14 relative ml-auto">
       <Nuxt />
     </div>
   </div>

@@ -1,108 +1,110 @@
 <template>
   <div class="form">
     <h2 class="text-2xl mb-3">Address</h2>
-    <div class="bg-white px-10 py-11">
-      <div class="form-control">
-        <label for="address">Residential Address</label>
-        <input
-          type="text"
-          id="address"
-          placeholder="address"
-          v-model="address"
-        />
-      </div>
-
-      <div class="form-control">
-        <label for="city">City</label>
-        <input type="text" id="city" placeholder="Ikeja" v-model="city" />
-      </div>
-
-      <div class="form-control">
-        <label>State Of Origin</label>
-        <select id="state" v-model="state">
-          <option value="lagos">Lagos</option>
-          <option value="oyo">Oyo</option>
-          <option value="ogun">Ogun</option>
-          <option value="ondo">Ondo</option>
-        </select>
-      </div>
-
-      <div class="form-control">
-        <label>Country</label>
-        <select id="country" v-model="country">
-          <option value="nigeria">Nigeria</option>
-          <option value="togo">Togo</option>
-          <option value="ghana">Ghana</option>
-          <option value="south-africa">South Africa</option>
-        </select>
-
+    <form @submit.prevent="submitAddress">
+      <div class="bg-white px-10 py-11">
         <div class="form-control">
-          <label for="nationality">Nationality</label>
+          <label for="address">Residential Address</label>
           <input
             type="text"
-            id="nationality"
-            placeholder="Ghanian"
-            v-model="city"
+            id="address"
+            placeholder="address"
+            v-model="resAddress"
           />
         </div>
+
+        <div class="form-control">
+          <label for="city">City</label>
+          <input type="text" id="city" placeholder="Ikeja" v-model="city" />
+        </div>
+
+        <div class="form-control">
+          <label>State Of Origin</label>
+          <select id="state" v-model="originState">
+            <option value="lagos">Lagos</option>
+            <option value="oyo">Oyo</option>
+            <option value="ogun">Ogun</option>
+            <option value="ondo">Ondo</option>
+          </select>
+        </div>
+
+        <div class="form-control">
+          <label>Country</label>
+          <select id="country" v-model="country">
+            <option value="nigeria">Nigeria</option>
+            <option value="togo">Togo</option>
+            <option value="ghana">Ghana</option>
+            <option value="south-africa">South Africa</option>
+          </select>
+
+          <div class="form-control">
+            <label for="nationality">Nationality</label>
+            <input
+              type="text"
+              id="nationality"
+              placeholder="Ghanaian"
+              v-model="nationality"
+            />
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="flex justify-between items-center">
-      <div class="mt-10 flex justify-end">
-        <nuxt-link
-          to="/signup"
-          class="
-            cursor-pointer
-            py-[12px]
-            text-primary
-            border border-btnBorder
-            hover:bg-primary hover:text-white hover:border-primary
-            transition
-            duration-300
-            ease-in-out
-            flex
-            items-center
-            justify-between
-            px-10
-            w-max
-            space-x-10
-            rounded-sm
-          "
-        >
-          <span class="material-icons material-icons-sharp justify-self-end">
-            west
-          </span>
-          <span class="w-[70%] text-right">Previous</span>
-        </nuxt-link>
+      <div class="flex justify-between items-center">
+        <div class="mt-10 flex justify-end">
+          <nuxt-link
+            to="/onboard/basic"
+            class="
+              cursor-pointer
+              py-[12px]
+              text-primary
+              border border-btnBorder
+              hover:bg-primary hover:text-white hover:border-primary
+              transition
+              duration-300
+              ease-in-out
+              flex
+              items-center
+              justify-between
+              px-10
+              w-max
+              space-x-10
+              rounded-sm
+            "
+          >
+            <span class="material-icons material-icons-sharp justify-self-end">
+              west
+            </span>
+            <span class="w-[70%] text-right">Previous</span>
+          </nuxt-link>
+        </div>
+        <div class="mt-10 flex justify-end">
+          <button
+            type="submit"
+            class="
+              cursor-pointer
+              py-[12px]
+              text-white
+              bg-primary
+              hover:bg-[rgba(37,140,96,0.7)]
+              transition
+              duration-300
+              ease-in-out
+              flex
+              items-center
+              justify-between
+              px-10
+              w-max
+              space-x-10
+              rounded-sm
+            "
+          >
+            <span class="w-[70%] text-right">Save & Continue</span>
+            <span class="material-icons material-icons-sharp justify-self-end">
+              east
+            </span>
+          </button>
+        </div>
       </div>
-      <div class="mt-10 flex justify-end">
-        <nuxt-link
-          to="/signup"
-          class="
-            cursor-pointer
-            py-[12px]
-            text-white
-            bg-primary
-            hover:bg-[rgba(37,140,96,0.7)]
-            transition
-            duration-300
-            ease-in-out
-            flex
-            items-center
-            justify-between
-            px-10
-            w-max
-            space-x-10
-            rounded-sm
-          "
-        >
-          <span class="w-[70%] text-right">Save & Continue</span>
-          <span class="material-icons material-icons-sharp justify-self-end">
-            east
-          </span>
-        </nuxt-link>
-      </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -112,12 +114,26 @@ export default {
   layout: 'onboardTwo',
   data() {
     return {
-      address: '',
+      resAddress: '',
       city: '',
-      state: '',
+      originState: '',
       country: '',
       nationality: '',
     }
+  },
+  methods: {
+    submitAddress() {
+      const formData = {
+        address: this.resAddress,
+        city: this.city,
+        state_of_origin: this.originState,
+        country: this.country,
+        nationality: this.nationality,
+      }
+      this.$store.dispatch('onboard/sendAddress', formData).then(() => {
+        this.$router.replace('/onboard/kin')
+      })
+    },
   },
 }
 </script>

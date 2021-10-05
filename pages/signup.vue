@@ -37,6 +37,7 @@
             id="email"
             placeholder="e.g michealolawale@gmail.com"
             v-model="email"
+            required
           />
         </div>
         <div class="form-control">
@@ -46,6 +47,7 @@
             id="username"
             placeholder="e.g mikeola"
             v-model="username"
+            required
           />
         </div>
         <div class="half">
@@ -56,6 +58,7 @@
               id="firstName"
               placeholder="e.g Mayowa"
               v-model="firstName"
+              required
             />
           </div>
           <div class="form-control">
@@ -65,6 +68,7 @@
               id="lastName"
               placeholder="Olawale"
               v-model="lastName"
+              required
             />
           </div>
         </div>
@@ -75,6 +79,7 @@
             id="password"
             placeholder="At least 8 characters"
             v-model="password"
+            required
           />
         </div>
         <button
@@ -91,6 +96,8 @@
             items-center
             px-8
           "
+          :disabled="isLoading"
+          :class="{ 'bg-gray-400 text-gray-800': isLoading }"
         >
           <span class="block w-full">Create My Free Account</span>
           <span class="block">
@@ -140,9 +147,13 @@ export default {
     username: '',
     firstName: '',
     lastName: '',
+    error: null,
+    isLoading: false,
   }),
   methods: {
     onSignup() {
+      this.isLoading = true
+      this.error = null
       this.$store
         .dispatch('auth/userSignUp', {
           username: this.username,
@@ -157,7 +168,12 @@ export default {
           this.firstName = ''
           this.lastName = ''
           this.password = ''
+          this.isLoading = false
           this.$router.replace('/')
+        })
+        .catch((err) => {
+          this.error = err.message
+          this.isLoading = false
         })
     },
   },

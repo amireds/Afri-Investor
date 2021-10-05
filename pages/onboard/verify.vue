@@ -1,6 +1,13 @@
 <template>
   <div class="form">
     <h2 class="text-2xl mb-3">Verification Documents</h2>
+    <div
+      class="bg-red-600 text-white text-center py-1 my-3"
+      v-for="(err, index) in error"
+      :key="index"
+    >
+      {{ err }}
+    </div>
     <form @submit.prevent="handleSubmit">
       <div class="bg-white px-10 py-11">
         <div class="mb-10">
@@ -220,6 +227,7 @@ export default {
       license: '',
       signature: '',
       utility: '',
+      error: [],
     }
   },
   methods: {
@@ -238,15 +246,23 @@ export default {
       }
     },
     handleSubmit() {
+      this.error = []
       const uploadingData = {
         passport: this.passport,
         identity: this.identity,
         signature: this.signature,
         utility: this.utility,
       }
-      this.$store.dispatch('onboard/uploadDocument', uploadingData).then(() => {
-        this.$router.replace('/onboard/complete')
-      })
+      this.$store
+        .dispatch('onboard/uploadDocument', uploadingData)
+        .then(() => {
+          this.$router.replace('/onboard/complete')
+        })
+        .catch((err) => {
+          Object.entries(err).map(([key, value]) => {
+            this.error.push(value[0])
+          })
+        })
     },
   },
 }

@@ -1,11 +1,19 @@
 <template>
   <div class="form">
     <h2 class="text-2xl mb-3">Address</h2>
+    <div
+      class="bg-red-600 text-white text-center py-1 my-3"
+      v-for="(err, index) in error"
+      :key="index"
+    >
+      {{ err }}
+    </div>
     <form @submit.prevent="submitAddress">
       <div class="bg-white px-10 py-11">
         <div class="form-control">
           <label for="address">Residential Address</label>
           <input
+            required
             type="text"
             id="address"
             placeholder="address"
@@ -15,7 +23,13 @@
 
         <div class="form-control">
           <label for="city">City</label>
-          <input type="text" id="city" placeholder="Ikeja" v-model="city" />
+          <input
+            required
+            type="text"
+            id="city"
+            placeholder="Ikeja"
+            v-model="city"
+          />
         </div>
 
         <div class="form-control">
@@ -40,6 +54,7 @@
           <div class="form-control">
             <label for="nationality">Nationality</label>
             <input
+              required
               type="text"
               id="nationality"
               placeholder="Ghanaian"
@@ -119,10 +134,12 @@ export default {
       originState: '',
       country: '',
       nationality: '',
+      error: [],
     }
   },
   methods: {
     submitAddress() {
+      this.error = []
       const formData = {
         address: this.resAddress,
         city: this.city,
@@ -130,9 +147,16 @@ export default {
         country: this.country,
         nationality: this.nationality,
       }
-      this.$store.dispatch('onboard/sendAddress', formData).then(() => {
-        this.$router.replace('/onboard/kin')
-      })
+      this.$store
+        .dispatch('onboard/sendAddress', formData)
+        .then(() => {
+          this.$router.replace('/onboard/kin')
+        })
+        .catch((err) => {
+          Object.entries(err).map(([key, value]) => {
+            this.error.push(value[0])
+          })
+        })
     },
   },
 }

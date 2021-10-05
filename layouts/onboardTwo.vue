@@ -22,7 +22,8 @@
         </p>
       </div>
       <div class="text-center">
-        <div
+        <NuxtLink
+          to="/home"
           class="
             text-[#626262]
             border border-[#626262]
@@ -39,7 +40,7 @@
           >
             close
           </span>
-        </div>
+        </NuxtLink>
         <p class="text-sm text-light mt-1">close</p>
       </div>
     </header>

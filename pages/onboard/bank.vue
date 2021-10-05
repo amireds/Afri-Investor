@@ -1,6 +1,13 @@
 <template>
   <div class="form">
     <h2 class="text-2xl mb-3">Bank Details</h2>
+    <div
+      class="bg-red-600 text-white text-center py-1 my-3"
+      v-for="(err, index) in error"
+      :key="index"
+    >
+      {{ err }}
+    </div>
     <form @submit.prevent="showAccName">
       <div class="bg-white px-10 py-11">
         <div class="form-control">
@@ -19,6 +26,7 @@
         <div class="form-control">
           <label for="accountNo">Account Number</label>
           <input
+            required
             type="text"
             id="accountNo"
             placeholder="0130434178"
@@ -29,6 +37,7 @@
         <div class="form-control">
           <label for="accName">Account Name</label>
           <input
+            required
             type="text"
             id="accName"
             placeholder=""
@@ -40,6 +49,7 @@
         <div class="form-control">
           <label for="bvn">BVN</label>
           <input
+            required
             type="text"
             id="bvn"
             placeholder="E.g 225516789"
@@ -116,6 +126,7 @@ export default {
       bank: '',
       accountNo: '',
       bvn: '',
+      error: [],
     }
   },
   computed: {
@@ -145,15 +156,23 @@ export default {
   },
   methods: {
     showAccName() {
+      this.error = []
       const formData = {
         bank_name: this.bank,
         account_name: this.accountName,
         account_number: this.accountNo,
         bvn: this.bvn,
       }
-      this.$store.dispatch('onboard/sendBank', formData).then(() => {
-        this.$router.replace('/onboard/verify')
-      })
+      this.$store
+        .dispatch('onboard/sendBank', formData)
+        .then(() => {
+          this.$router.replace('/onboard/verify')
+        })
+        .catch((err) => {
+          Object.entries(err).map(([key, value]) => {
+            this.error.push(value[0])
+          })
+        })
     },
   },
   mounted() {

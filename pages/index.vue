@@ -28,69 +28,84 @@
     <div class="auth-body">
       <h1 class="text-4xl text-center leading-[50px] px-10">Hello!</h1>
       <h3 class="w-full text-center">Welcome back, enter your details below</h3>
-      <form @submit.prevent="onLogin">
-        <div class="form-control">
-          <label for="email">Email/Username</label>
-          <input
-            type="email"
-            id="email"
-            placeholder="e.g michealolawale@gmail.com"
-            v-model="username"
-          />
-        </div>
-        <div class="form-control">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="At least 8 characters"
-            v-model="password"
-          />
-        </div>
-        <div class="form-control">
-          <div class="text-sm flex justify-between items-center">
-            <div class="flex items-center justify-start space-x-2 relative">
-              <input type="checkbox" class="w-5 h-5 opacity-0 absolute" />
-              <div
-                class="
-                  bg-white
-                  border border-btnBorder
-                  rounded-none
-                  w-5
-                  h-5
-                  flex flex-shrink-0
-                  justify-start
-                  items-center
-                  focus-within:border-primary
-                "
-              ></div>
-              <span>Remember Me</span>
-            </div>
-            <nuxt-link to="/home" class="hover:text-primary underline"
-              >I forgot my password</nuxt-link
-            >
+      <div v-if="error" class="bg-red-600 text-white text-center py-1 my-3">
+        {{ error }}
+      </div>
+      <ValidationObserver v-slot="{ invalid }">
+        <form @submit.prevent="onLogin">
+          <div class="form-control">
+            <label for="email">Email/Username</label>
+            <ValidationProvider
+              mode="passive"
+              rules="required|email"
+              v-slot="{ errors }"
+              ><input
+                type="email"
+                id="email"
+                placeholder="e.g michealolawale@gmail.com"
+                v-model="username"
+                required
+              />
+              <span>{{ errors[0] }}</span>
+            </ValidationProvider>
           </div>
-        </div>
-        <button
-          type="submit"
-          class="
-            w-full
-            mt-5
-            bg-primary
-            text-white
-            py-3.5
-            flex
-            justify-center
-            items-center
-            px-8
-          "
-        >
-          <span class="block w-full">Login</span>
-          <span class="block">
-            <i class="fas fa-long-arrow-alt-right"></i>
-          </span>
-        </button>
-      </form>
+          <div class="form-control">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="At least 8 characters"
+              v-model="password"
+              required
+            />
+          </div>
+          <div class="form-control">
+            <div class="text-sm flex justify-between items-center">
+              <div class="flex items-center justify-start space-x-2 relative">
+                <input type="checkbox" class="w-5 h-5 opacity-0 absolute" />
+                <div
+                  class="
+                    bg-white
+                    border border-btnBorder
+                    rounded-none
+                    w-5
+                    h-5
+                    flex flex-shrink-0
+                    justify-start
+                    items-center
+                    focus-within:border-primary
+                  "
+                ></div>
+                <span>Remember Me</span>
+              </div>
+              <nuxt-link to="/home" class="hover:text-primary underline"
+                >I forgot my password</nuxt-link
+              >
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="
+              w-full
+              mt-5
+              bg-primary
+              text-white
+              py-3.5
+              flex
+              justify-center
+              items-center
+              px-8
+            "
+            :disabled="isLoading"
+            :class="{ 'bg-gray-400 text-gray-800': isLoading }"
+          >
+            <span class="block w-full">Login</span>
+            <span class="block">
+              <i class="fas fa-long-arrow-alt-right"></i>
+            </span>
+          </button>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
@@ -103,10 +118,14 @@ export default {
     return {
       username: '',
       password: '',
+      error: null,
+      isLoading: false,
     }
   },
   methods: {
     onLogin() {
+      this.isLoading = true
+      this.error = null
       this.$store
         .dispatch('auth/userLogin', {
           username: this.username,
@@ -115,8 +134,15 @@ export default {
         .then(() => {
           this.username = ''
           this.password = ''
+          this.isLoading = false
           this.$router.push('/home')
           //console.log('You should go to home')
+        })
+        .catch((err) => {
+          this.username = ''
+          this.password = ''
+          this.error = err.message
+          this.isLoading = false
         })
     },
   },

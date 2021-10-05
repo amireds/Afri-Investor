@@ -1,11 +1,19 @@
 <template>
   <div class="form">
     <h2 class="text-2xl mb-3">Next Of Kin</h2>
+    <div
+      class="bg-red-600 text-white text-center py-1 my-3"
+      v-for="(err, index) in error"
+      :key="index"
+    >
+      {{ err }}
+    </div>
     <form @submit.prevent="submitKinInfo">
       <div class="bg-white px-10 py-11">
         <div class="form-control">
           <label for="name">Full Name</label>
           <input
+            required
             type="text"
             id="name"
             placeholder="Chioma Ajunwa"
@@ -16,6 +24,7 @@
         <div class="form-control">
           <label for="email">Email</label>
           <input
+            required
             type="email"
             id="email"
             placeholder="michealolawale@gmail.com"
@@ -40,6 +49,7 @@
               +234
             </div>
             <input
+              required
               type="text"
               id="phone"
               placeholder="70563296578"
@@ -51,6 +61,7 @@
         <div class="form-control">
           <label for="address">Residential Address</label>
           <input
+            required
             type="text"
             id="address"
             placeholder="Enter address"
@@ -138,10 +149,12 @@ export default {
       phone: '',
       address: '',
       relationship: '',
+      error: [],
     }
   },
   methods: {
     submitKinInfo() {
+      this.error = []
       const formData = {
         full_name: this.name,
         residential_address: this.address,
@@ -149,9 +162,16 @@ export default {
         phone_number: `0${this.phone}`,
         email: this.email,
       }
-      this.$store.dispatch('onboard/sendNextOfKin', formData).then(() => {
-        this.$router.replace('/onboard/bank')
-      })
+      this.$store
+        .dispatch('onboard/sendNextOfKin', formData)
+        .then(() => {
+          this.$router.replace('/onboard/bank')
+        })
+        .catch((err) => {
+          Object.entries(err).map(([key, value]) => {
+            this.error.push(value[0])
+          })
+        })
     },
   },
 }

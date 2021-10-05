@@ -1,11 +1,19 @@
 <template>
   <div class="form">
     <h2 class="text-2xl mb-3">Basic Info</h2>
+    <div
+      class="bg-red-600 text-white text-center py-1 my-3"
+      v-for="(err, index) in error"
+      :key="index"
+    >
+      {{ err }}
+    </div>
     <form @submit.prevent="basicOnboard">
       <div class="bg-white px-10 py-11">
         <div class="form-control">
           <label for="middle_name">Middle Name</label>
           <input
+            required
             type="text"
             id="middle_name"
             placeholder="e.g mikeola"
@@ -15,6 +23,7 @@
         <div class="form-control">
           <label for="date">Date Of Birth</label>
           <input
+            required
             type="date"
             id="date"
             placeholder="July 23 1987"
@@ -39,6 +48,7 @@
               +234
             </div>
             <input
+              required
               type="text"
               id="phone"
               placeholder="70563296578"
@@ -68,6 +78,7 @@
             >
               <div class="flex items-center justify-between">
                 <input
+                  required
                   id="male"
                   type="radio"
                   name="gender"
@@ -111,6 +122,7 @@
             >
               <div class="flex items-center justify-between">
                 <input
+                  required
                   id="female"
                   type="radio"
                   name="gender"
@@ -140,6 +152,7 @@
         <div class="form-control">
           <label for="maiden">Mother’s Maiden Name</label>
           <input
+            required
             type="text"
             id="maiden"
             placeholder="Balogun"
@@ -208,6 +221,8 @@
 </template>
 
 <script>
+import error from '~/layouts/error'
+
 export default {
   name: 'basic',
   layout: 'onboardTwo',
@@ -218,10 +233,12 @@ export default {
       phone: '',
       gender: 'male',
       maidenName: '',
+      error: [],
     }
   },
   methods: {
     basicOnboard() {
+      this.error = []
       const formData = {
         middlename: this.middleName,
         date_of_birth: this.date,
@@ -234,7 +251,11 @@ export default {
         .then(() => {
           this.$router.replace('/onboard/address')
         })
-        .catch()
+        .catch((err) => {
+          Object.entries(err).map(([key, value]) => {
+            this.error.push(value[0])
+          })
+        })
     },
   },
 }

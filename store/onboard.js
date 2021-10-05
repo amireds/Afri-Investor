@@ -37,7 +37,10 @@ export const actions = {
       .then((res) => {
         vuexContext.commit('setBasicInfo', res.data.data)
       })
-      .catch((err) => console.log('BASIC ONBOARDING INFO ERROR', err.response))
+      .catch((err) => {
+        console.log('BASIC ONBOARDING INFO ERROR', err)
+        return Promise.reject(err.data)
+      })
   },
   sendAddress(vuexContext, addressData) {
     return this.$axios
@@ -45,7 +48,10 @@ export const actions = {
       .then((res) => {
         vuexContext.commit('setAddress', res.data.data)
       })
-      .catch((err) => console.log('ADDRESS ONBOARDING ERROR', err.response))
+      .catch((err) => {
+        console.log('ADDRESS ONBOARDING ERROR', err.response)
+        return Promise.reject(err.data)
+      })
   },
   sendNextOfKin(vuexContent, kinData) {
     return this.$axios
@@ -53,7 +59,10 @@ export const actions = {
       .then((res) => {
         vuexContent.commit('setKin', res.data.data)
       })
-      .catch((err) => console.log('NEXT OF KIN ONBOARDING ERROR', err.response))
+      .catch((err) => {
+        console.log('NEXT OF KIN ONBOARDING ERROR', err.response)
+        return Promise.reject(err.data)
+      })
   },
   sendBank(vuexContent, bankData) {
     return this.$axios
@@ -61,7 +70,10 @@ export const actions = {
       .then((res) => {
         vuexContent.commit('setBank', res.data.data)
       })
-      .catch((err) => console.log('BANK DETAILS ONBOARDING ERROR', err))
+      .catch((err) => {
+        console.log('BANK DETAILS ONBOARDING ERROR', err)
+        return Promise.reject(err.data)
+      })
   },
   getBanks(vuexContext) {
     const myHeaders = new Headers()
@@ -156,19 +168,27 @@ export const actions = {
                       .then((res) => {
                         console.log('FILES UPLOADED SUCCESSFULLY')
                       })
-                      .catch((err) =>
+                      .catch((err) => {
                         console.log('Error Uploading Signature', err)
-                      )
+                        return Promise.reject(err.data)
+                      })
                   })
-                  .catch((err) =>
+                  .catch((err) => {
                     console.log('Error Uploading Utility Bill', err)
-                  )
+                    return Promise.reject(err.data)
+                  })
               }
             })
-            .catch((err) => console.log('Error Uploading Identity Proof', err))
+            .catch((err) => {
+              console.log('Error Uploading Identity Proof', err)
+              return Promise.reject(err.data)
+            })
         }
       })
-      .catch((err) => console.log('Error Uploading Passport', err))
+      .catch((err) => {
+        console.log('Error Uploading Passport', err)
+        return Promise.reject(err.data)
+      })
   },
 }
 

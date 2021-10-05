@@ -22,7 +22,8 @@
         </p>
       </div>
       <div class="text-center">
-        <div
+        <NuxtLink
+          to="/home"
           class="
             text-[#626262]
             border border-[#626262]
@@ -39,13 +40,13 @@
           >
             close
           </span>
-        </div>
+        </NuxtLink>
         <p class="text-sm text-light mt-1">close</p>
       </div>
     </header>
     <main class="w-full h-[91.5%]">
-      <div class="flex h-full">
-        <div class="bg-white w-[25%] pt-[100px] h-full relative">
+      <div class="flex h-full items-stretch">
+        <div class="bg-white w-[25%] pt-[100px] self-stretch fixed relative">
           <ul class="space-y-3">
             <li class="">
               <nuxt-link to="/onboard/basic">
@@ -146,8 +147,10 @@
             </li>
           </ul>
         </div>
-        <div class="w-[650px] mx-auto mt-40">
-          <Nuxt />
+        <div class="sidebar flex-1 pt-32 mt-8 pb-20 overflow-scroll">
+          <div class="w-[650px] mx-auto">
+            <Nuxt />
+          </div>
         </div>
       </div>
     </main>
@@ -160,6 +163,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.sidebar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 .menu-link {
   @apply flex
   space-x-4

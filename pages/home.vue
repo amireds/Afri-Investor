@@ -52,7 +52,8 @@
             To access the amazing investment business experience, Kindly help us
             to know you better
           </p>
-          <div
+          <nuxt-link
+            to="/onboard"
             class="
               flex
               items-center
@@ -64,7 +65,7 @@
           >
             <span class="font-medium">Start Now</span>
             <span class="material-icons"> east </span>
-          </div>
+          </nuxt-link>
         </div>
       </div>
     </div>

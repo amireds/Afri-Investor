@@ -8,6 +8,7 @@ export default function ({ $axios, store }) {
         }
         return config
       }
+      return config
     },
     (error) => {
       return Promise.reject(error)

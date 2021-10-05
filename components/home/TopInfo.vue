@@ -9,8 +9,9 @@
       </p>
     </div>
     <div>
-      <nuxt-link
-        to="/signup"
+      <button
+        type="button"
+        @click="logout"
         class="
           cursor-pointer
           rounded
@@ -30,7 +31,7 @@
       >
         <span class="material-icons text-base font-semibold"> add </span>
         <span>Invest</span>
-      </nuxt-link>
+      </button>
     </div>
   </div>
 </template>
@@ -43,6 +44,11 @@ export default {
     },
     firstName() {
       return this.$store.getters['dashboard/firstName']
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('auth/logout')
     },
   },
 }

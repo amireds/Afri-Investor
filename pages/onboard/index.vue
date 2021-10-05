@@ -146,7 +146,7 @@
     </ul>
     <div class="mt-10 flex justify-end">
       <nuxt-link
-        to="/signup"
+        to="/onboard/basic"
         class="
           cursor-pointer
           rounded

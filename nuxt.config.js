@@ -33,6 +33,7 @@ export default {
     { src: '~/plugins/vue-tour.js' },
     { src: '~/plugins/vue-calendar.js', mode: 'client' },
     { src: '~/plugins/axios.js' },
+    { src: '~/plugins/vee-validate.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -49,6 +50,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
+    '@nuxtjs/moment',
   ],
 
   styleResources: {
@@ -61,5 +63,12 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['vee-validate'],
+  },
+
+  env: {
+    bankAuth:
+      'TUtfVEVTVF9TQUY3SFI1RjNGOjRTWTZUTkw4Q0szVlBSU0JUSFRSRzJOOFhYRUdDNk5M',
+  },
 }

@@ -1,11 +1,19 @@
 export const state = () => ({
-  userData: {},
+  dashboardData: {},
+  userProfile: null,
+  nokRecord: null,
 })
 
 /* MUTATIONS */
 export const mutations = {
   setUserData(state, payload) {
-    state.userData = payload
+    state.dashboardData = payload
+  },
+  setUserRecord(state, payload) {
+    state.userProfile = payload
+  },
+  setNokRecord(state, payload) {
+    state.nokRecord = payload
   },
 }
 
@@ -19,11 +27,31 @@ export const actions = {
       })
       .catch((err) => console.log('GET USER DATA FAILED', err))
   },
+  getUserRecord(vuexContext) {
+    return this.$axios
+      .$get('user/address')
+      .then((res) => {
+        this.$axios
+          .$get('/user/kin')
+          .then((nokRes) => {
+            vuexContext.commit('setNokRecord', nokRes.data)
+            vuexContext.commit('setUserRecord', res.data)
+          })
+          .catch((err) => console.log('Error getting Next of Kin', err))
+      })
+      .catch((err) => console.log('Error getting Address', err))
+  },
 }
 
 /* GETTERS */
 export const getters = {
   firstName(state) {
-    return state.userData.firstname
+    return state.dashboardData.firstname
+  },
+  userRecord(state) {
+    return state.userProfile
+  },
+  nokRecord(state) {
+    return state.nokRecord
   },
 }

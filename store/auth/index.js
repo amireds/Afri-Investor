@@ -40,7 +40,10 @@ export const actions = {
         localStorage.setItem('token', res.data.access_token)
         Cookie.set('accessToken', res.data.access_token)
       })
-      .catch((e) => console.log('LOGIN ERROR', e.response))
+      .catch((e) => {
+        console.log('LOGIN ERROR', e)
+        return Promise.reject(e.data)
+      })
   },
 
   userSignUp(vuexContext, signupData) {
@@ -50,7 +53,10 @@ export const actions = {
         vuexContext.commit('setUserInfo', res.data)
         console.log('Signup Successful', res.data)
       })
-      .catch((err) => console.log('SIGNUP ERROR', err.response || err))
+      .catch((err) => {
+        console.log('SIGNUP ERROR', err.response || err)
+        return Promise.reject(e.data)
+      })
   },
 
   // Check if token exists, if set token
@@ -69,7 +75,9 @@ export const actions = {
       }
       token = loginToken.split('=')[1]
     } else {
-      token = localStorage.getItem('token')
+      if (process.client) {
+        token = localStorage.getItem('token')
+      }
     }
 
     vuexContext.commit('setToken', token)
@@ -82,6 +90,7 @@ export const actions = {
     if (process.client) {
       localStorage.removeItem('token')
     }
+    this.$router.replace('/')
   },
 
   setFirstLaunch(vuexContext) {

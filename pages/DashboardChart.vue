@@ -1,5 +1,7 @@
 <template>
-  <div class="w-full bg-white px-6 content-center">
+  <div
+    class="w-[50%] bg-white flex items-center justify-center overflow-hidden"
+  >
     <GChart type="PieChart" :data="data" :options="options" />
   </div>
 </template>

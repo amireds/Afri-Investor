@@ -16,7 +16,8 @@
     <div>
       <div class="mt-10 flex justify-center">
         <nuxt-link
-          to="/signup"
+          to="/home"
+          replace
           class="
             cursor-pointer
             py-[12px]
